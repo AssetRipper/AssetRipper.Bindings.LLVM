@@ -75,7 +75,6 @@ internal static class Program
 			{
 				IEntry entry = reader.Entry;
 				string? key = entry.Key;
-				Console.WriteLine(key);
 				if (key is null)
 				{
 					continue;
