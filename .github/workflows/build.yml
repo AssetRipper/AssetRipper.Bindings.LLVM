@@ -30,6 +30,8 @@ jobs:
       - name: Set up Clang
         if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64'
         uses: egor-tensin/setup-clang@v2
+        with:
+          version: 21.1.8
 
       - name: Build
         run: dotnet build
