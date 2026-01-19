@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="License.md" />
+    <File Path="README.md" />
+    <File Path="ReleaseChangelog.md" />
+  </Folder>
+  <Project Path="AssetRipper.Bindings.LLVM.Downloader/AssetRipper.Bindings.LLVM.Downloader.csproj" />
+  <Project Path="AssetRipper.Bindings.LLVM.Exports/AssetRipper.Bindings.LLVM.Exports.csproj" />
+</Solution>

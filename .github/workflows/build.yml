@@ -1,0 +1,49 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.config.os }}
+
+    strategy:
+      matrix:
+        config:
+          - { os: windows-latest, runtime: win-x64 }
+          - { os: windows-latest, runtime: win-arm64 }
+          - { os: ubuntu-22.04, runtime: linux-x64 }
+          - { os: ubuntu-22.04-arm, runtime: linux-arm64 }
+          - { os: macos-14, runtime: osx-arm64 }
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install CMake
+        uses: jwlawson/actions-setup-cmake@v2
+
+      - name: Build
+        run: dotnet build
+
+      - name: Download LLVM
+        run: dotnet run --project ./AssetRipper.Bindings.LLVM.Downloader/AssetRipper.Bindings.LLVM.Downloader.csproj 20.1.2 ${{ matrix.config.runtime }}
+
+      - name: Build Native Library
+        run: |
+          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ github.workspace }}/AssetRipper.Bindings.LLVM.Downloader/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm" 
+          cmake --build ./Native/build --config Release
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: libLLVM_${{ matrix.config.runtime }}
+          path: ./Native/build/Release/libLLVM.*
+          if-no-files-found: error
