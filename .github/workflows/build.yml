@@ -42,7 +42,7 @@ jobs:
           cmake --build ./Native/build --config Release
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with:
           name: libLLVM_${{ matrix.config.runtime }}
           path: ./Native/build/Release/libLLVM.*
