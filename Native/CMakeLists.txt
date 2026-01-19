@@ -39,6 +39,8 @@ endif()
 # Link time optimization can cause issues on macOS
 if(APPLE)
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
+    add_compile_options(-fno-lto)
+    add_link_options(-fno-lto)
 endif()
 
 # Add executable
