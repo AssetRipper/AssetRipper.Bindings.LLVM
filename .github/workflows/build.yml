@@ -34,6 +34,9 @@ jobs:
       - name: Download LLVM
         run: dotnet run --project ./AssetRipper.Bindings.LLVM.Downloader/AssetRipper.Bindings.LLVM.Downloader.csproj 21.1.8 ${{ matrix.config.runtime }}
 
+      - name: List LLVM Directory
+        run: ls -R ${{ github.workspace }}/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm
+
       - name: Build Native Library
         run: |
           cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ github.workspace }}/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm" 
