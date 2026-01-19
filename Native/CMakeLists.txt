@@ -36,10 +36,6 @@ if(WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
-if(WIN32)
-    set_target_properties(LLVM PROPERTIES PREFIX "lib")
-endif()
-
 # Link time optimization can cause issues on macOS
 if(APPLE)
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
@@ -49,6 +45,10 @@ endif()
 
 # Add executable
 add_library(LLVM SHARED src/Additions.cpp Exports.def)
+
+if(WIN32)
+    set_target_properties(LLVM PROPERTIES PREFIX "lib")
+endif()
 
 generate_export_header(LLVM
     EXPORT_MACRO_NAME "LLVM_API"
