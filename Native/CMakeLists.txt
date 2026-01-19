@@ -36,6 +36,11 @@ if(WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
+# Link time optimization can cause issues on macOS
+if(APPLE)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
+endif()
+
 # Add executable
 add_library(libLLVM SHARED src/Additions.cpp Exports.def)
 
