@@ -57,9 +57,13 @@ internal static class Program
 
 		// Extract the file
 		{
-			Console.WriteLine("Extracting...");
-			using IReader reader = OpenReader(tempFilePath, target);
 			string outputDirectory = Path.Join(AppContext.BaseDirectory, "llvm");
+			Console.WriteLine($"Extracting to {Path.GetFullPath(outputDirectory)}...");
+			using IReader reader = OpenReader(tempFilePath, target);
+			if (Directory.Exists(outputDirectory))
+			{
+				Directory.Delete(outputDirectory, true);
+			}
 			Directory.CreateDirectory(outputDirectory);
 			ExtractionOptions options = new()
 			{
