@@ -12,6 +12,12 @@ set(LLVM_ROOT "" CACHE PATH "Path to the root of the LLVM installation")
 if (LLVM_ROOT STREQUAL "")
     message(FATAL_ERROR "LLVM_ROOT is not set. Please specify the path to the LLVM installation.")
 endif()
+if(NOT IS_DIRECTORY "${LLVM_ROOT}")
+  message(FATAL_ERROR
+    "Required directory does not exist:\n"
+    "  ${LLVM_ROOT}"
+  )
+endif()
 set(LLVM_INCLUDE_DIR "${LLVM_ROOT}/include")
 set(LLVM_LIB_DIR "${LLVM_ROOT}/lib")
 

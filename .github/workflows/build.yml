@@ -34,7 +34,7 @@ jobs:
         run: dotnet build
 
       - name: Download LLVM
-        run: dotnet run --project ./AssetRipper.Bindings.LLVM.Downloader/AssetRipper.Bindings.LLVM.Downloader.csproj 20.1.2 ${{ matrix.config.runtime }}
+        run: dotnet run --project ./AssetRipper.Bindings.LLVM.Downloader/AssetRipper.Bindings.LLVM.Downloader.csproj 21.1.8 ${{ matrix.config.runtime }}
 
       - name: Build Native Library
         run: |
