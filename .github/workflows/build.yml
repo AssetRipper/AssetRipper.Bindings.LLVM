@@ -33,6 +33,12 @@ jobs:
         with:
           version: 21
 
+      - name: Install lld
+        if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64'
+        run: |
+          sudo apt update
+          sudo apt install lld
+
       - name: Build
         run: dotnet build
 
