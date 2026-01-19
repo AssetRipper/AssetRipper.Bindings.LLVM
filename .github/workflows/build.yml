@@ -30,7 +30,7 @@ jobs:
       - name: Setup LLVM (Linux)
         if: matrix.config.runtime == 'linux-x64'
         run: |
-          curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/clang+llvm-21.1.8-x86_64-linux-gnu-ubuntu-22.04.tar.xz \
+          curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/LLVM-21.1.8-Linux-X64.tar.xz \
             -o llvm-21.1.8.tar.xz
           tar -xf llvm-21.1.8.tar.xz
           export PATH="$PWD/clang+llvm-21.1.8-x86_64-linux-gnu-ubuntu-22.04/bin:$PATH"
