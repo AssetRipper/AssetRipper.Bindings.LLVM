@@ -27,17 +27,16 @@ jobs:
       - name: Setup CMake
         uses: jwlawson/actions-setup-cmake@v2
 
-      - name: Set up Clang
-        if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64'
-        uses: egor-tensin/setup-clang@v2
-        with:
-          version: 21
-
       - name: Install lld
         if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64'
         run: |
+          # Add the LLVM apt repository
+          wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+          echo "deb http://apt.llvm.org/questing/ llvm-toolchain-questing-21 main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain-21.list
           sudo apt update
-          sudo apt install lld
+
+          # Install LLVM 21, Clang 21, and LLD 21
+          sudo apt install -y clang-21 lld-21 llvm-21 llvm-21-dev
 
       - name: Build
         run: dotnet build
