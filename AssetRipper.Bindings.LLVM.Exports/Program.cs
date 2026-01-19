@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 
 namespace AssetRipper.Bindings.LLVM.Exports;
 
@@ -37,7 +38,9 @@ internal class Program
 				NewLine = "\n",
 			};
 			writer.WriteLine("EXPORTS");
-			foreach (string export in GetExportsForPE(peImage))
+			List<string> exports = GetExportsForPE(peImage).ToList();
+			exports.Sort(StringComparer.Ordinal);
+			foreach (string export in exports)
 			{
 				writer.Write("    ");
 				writer.WriteLine(export);

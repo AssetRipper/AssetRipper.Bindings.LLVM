@@ -38,7 +38,7 @@ jobs:
 
       - name: Build Native Library
         run: |
-          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ github.workspace }}/AssetRipper.Bindings.LLVM.Downloader/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm" 
+          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ github.workspace }}/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm" 
           cmake --build ./Native/build --config Release
 
       - name: Upload Artifacts

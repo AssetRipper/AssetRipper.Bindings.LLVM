@@ -160,6 +160,7 @@ EXPORTS
     LLVMConstArray
     LLVMConstArray2
     LLVMConstBitCast
+    LLVMConstDataArray
     LLVMConstExtractElement
     LLVMConstGEP2
     LLVMConstGEPWithNoWrapFlags
@@ -173,13 +174,10 @@ EXPORTS
     LLVMConstIntOfString
     LLVMConstIntOfStringAndSize
     LLVMConstIntToPtr
-    LLVMConstMul
     LLVMConstNSWAdd
-    LLVMConstNSWMul
     LLVMConstNSWNeg
     LLVMConstNSWSub
     LLVMConstNUWAdd
-    LLVMConstNUWMul
     LLVMConstNUWNeg
     LLVMConstNUWSub
     LLVMConstNamedStruct
@@ -273,8 +271,10 @@ EXPORTS
     LLVMDIBuilderCreateCompileUnit
     LLVMDIBuilderCreateConstantValueExpression
     LLVMDIBuilderCreateDebugLocation
+    LLVMDIBuilderCreateDynamicArrayType
     LLVMDIBuilderCreateEnumerationType
     LLVMDIBuilderCreateEnumerator
+    LLVMDIBuilderCreateEnumeratorOfArbitraryPrecision
     LLVMDIBuilderCreateExpression
     LLVMDIBuilderCreateFile
     LLVMDIBuilderCreateForwardDecl
@@ -302,8 +302,10 @@ EXPORTS
     LLVMDIBuilderCreateQualifiedType
     LLVMDIBuilderCreateReferenceType
     LLVMDIBuilderCreateReplaceableCompositeType
+    LLVMDIBuilderCreateSetType
     LLVMDIBuilderCreateStaticMemberType
     LLVMDIBuilderCreateStructType
+    LLVMDIBuilderCreateSubrangeType
     LLVMDIBuilderCreateSubroutineType
     LLVMDIBuilderCreateTempGlobalVariableFwdDecl
     LLVMDIBuilderCreateTempMacroFile
@@ -333,6 +335,7 @@ EXPORTS
     LLVMDILocationGetScope
     LLVMDIScopeGetFile
     LLVMDISubprogramGetLine
+    LLVMDISubprogramReplaceType
     LLVMDITypeGetAlignInBits
     LLVMDITypeGetFlags
     LLVMDITypeGetLine
@@ -491,6 +494,7 @@ EXPORTS
     LLVMGetHostCPUFeatures
     LLVMGetHostCPUName
     LLVMGetICmpPredicate
+    LLVMGetICmpSameSign
     LLVMGetIncomingBlock
     LLVMGetIncomingValue
     LLVMGetIndices
@@ -599,6 +603,7 @@ EXPORTS
     LLVMGetPreviousNamedMetadata
     LLVMGetPreviousParam
     LLVMGetPrologueData
+    LLVMGetRawDataValues
     LLVMGetRelocationOffset
     LLVMGetRelocationSymbol
     LLVMGetRelocationType
@@ -921,9 +926,11 @@ EXPORTS
     LLVMOrcCreateLocalIndirectStubsManager
     LLVMOrcCreateLocalLazyCallThroughManager
     LLVMOrcCreateNewThreadSafeContext
+    LLVMOrcCreateNewThreadSafeContextFromLLVMContext
     LLVMOrcCreateNewThreadSafeModule
     LLVMOrcCreateRTDyldObjectLinkingLayerWithMCJITMemoryManagerLikeCallbacks
     LLVMOrcCreateRTDyldObjectLinkingLayerWithSectionMemoryManager
+    LLVMOrcCreateStaticLibrarySearchGeneratorForPath
     LLVMOrcDisposeCSymbolFlagsMap
     LLVMOrcDisposeDefinitionGenerator
     LLVMOrcDisposeDumpObjects
@@ -999,7 +1006,6 @@ EXPORTS
     LLVMOrcRetainSymbolStringPoolEntry
     LLVMOrcSymbolStringPoolClearDeadEntries
     LLVMOrcSymbolStringPoolEntryStr
-    LLVMOrcThreadSafeContextGetContext
     LLVMOrcThreadSafeModuleWithModuleDo
     LLVMPPCFP128Type
     LLVMPPCFP128TypeInContext
@@ -1072,6 +1078,7 @@ EXPORTS
     LLVMRemoveModule
     LLVMRemoveStringAttributeAtIndex
     LLVMReplaceAllUsesWith
+    LLVMReplaceArrays
     LLVMReplaceMDNodeOperandWith
     LLVMResetFatalErrorHandler
     LLVMRunFunction
@@ -1107,6 +1114,7 @@ EXPORTS
     LLVMSetGC
     LLVMSetGlobalConstant
     LLVMSetGlobalIFuncResolver
+    LLVMSetICmpSameSign
     LLVMSetInitializer
     LLVMSetInstDebugLocation
     LLVMSetInstrParamAlignment
