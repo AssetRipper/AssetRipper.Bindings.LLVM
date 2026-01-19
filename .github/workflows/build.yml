@@ -39,6 +39,7 @@ jobs:
 
       - name: Set LLVM Path
         id: get-llvm-path
+        shell: bash
         run: |
           echo "llvm_path=${GITHUB_WORKSPACE}/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm" >> $GITHUB_OUTPUT
 
