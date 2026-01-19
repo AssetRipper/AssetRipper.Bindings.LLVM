@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(libLLVM)
+project(LLVM)
 
 include(GenerateExportHeader)
 
@@ -36,6 +36,10 @@ if(WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
+if(WIN32)
+    set_target_properties(LLVM PROPERTIES PREFIX "lib")
+endif()
+
 # Link time optimization can cause issues on macOS
 if(APPLE)
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
@@ -44,16 +48,16 @@ if(APPLE)
 endif()
 
 # Add executable
-add_library(libLLVM SHARED src/Additions.cpp Exports.def)
+add_library(LLVM SHARED src/Additions.cpp Exports.def)
 
-generate_export_header(libLLVM
+generate_export_header(LLVM
     EXPORT_MACRO_NAME "LLVM_API"
     EXPORT_FILE_NAME LLVM_export.h
 )
 
 # LLVM depends on ntdll on Windows
 if(WIN32)
-    target_link_libraries(libLLVM PRIVATE ntdll)
+    target_link_libraries(LLVM PRIVATE ntdll)
 endif()
 
 # Determine the library extension based on platform
@@ -78,6 +82,6 @@ list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/Remarks${LIB_EXT}")
 # Link against the import libraries
 # Quote each path to safely handle spaces
 foreach(LIB IN LISTS ALL_LIBS)
-    target_link_libraries(libLLVM PRIVATE "${LIB}")
+    target_link_libraries(LLVM PRIVATE "${LIB}")
 endforeach()
 

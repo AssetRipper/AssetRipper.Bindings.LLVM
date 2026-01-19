@@ -14,7 +14,7 @@ jobs:
       matrix:
         config:
           - { os: windows-latest, runtime: win-x64 }
-          - { os: ubuntu-24.04, runtime: linux-x64 }
+          - { os: ubuntu-latest, runtime: linux-x64 }
           - { os: macos-latest, runtime: osx-arm64 }
 
     steps:
@@ -39,7 +39,7 @@ jobs:
 
       - name: Build Native Library
         run: |
-          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ github.workspace }}/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm" 
+          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ github.workspace }}/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm"
           cmake --build ./Native/build --config Release
 
       - name: Upload Artifacts
