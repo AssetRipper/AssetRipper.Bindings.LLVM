@@ -75,6 +75,7 @@ internal static class Program
 			{
 				IEntry entry = reader.Entry;
 				string? key = entry.Key;
+				Console.WriteLine(key);
 				if (key is null)
 				{
 					continue;
@@ -160,12 +161,15 @@ internal static class Program
 		IReader reader = ReaderFactory.Open(path);
 		if (target is Target.WindowsX64 or Target.WindowsArm64)
 		{
-			return new WindowsReader(reader);
+			return new LlvmReader(reader, "clang+llvm-");
 		}
-		return reader;
+		else
+		{
+			return new LlvmReader(reader, "LLVM-");
+		}
 	}
 
-	private sealed class WindowsEntry(IEntry Original) : IEntry
+	private sealed class LlvmEntry(IEntry Original, string Prefix) : IEntry
 	{
 		CompressionType IEntry.CompressionType => Original.CompressionType;
 
@@ -183,7 +187,7 @@ internal static class Program
 			{
 				string? key = Original.Key;
 				Debug.Assert(key is not null);
-				Debug.Assert(key.StartsWith("clang+llvm-", StringComparison.Ordinal));
+				Debug.Assert(key.StartsWith(Prefix, StringComparison.Ordinal));
 				int firstSlash = key.IndexOf('/');
 				if (firstSlash < 0 || firstSlash + 1 >= key.Length)
 				{
@@ -216,12 +220,11 @@ internal static class Program
 		int? IEntry.Attrib => Original.Attrib;
 	}
 
-	private sealed class WindowsReader(IReader Original) : IReader
+	private sealed class LlvmReader(IReader Original, string Prefix) : IReader
 	{
 		ArchiveType IReader.ArchiveType => Original.ArchiveType;
 
-		IEntry IReader.Entry => new WindowsEntry(Original.Entry);
-
+		IEntry IReader.Entry => new LlvmEntry(Original.Entry, Prefix);
 		bool IReader.Cancelled => Original.Cancelled;
 
 		void IReader.Cancel()
