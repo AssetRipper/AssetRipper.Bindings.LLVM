@@ -4,5 +4,6 @@
 bin/
 obj/
 out/
+build/
 *.user
 launchSettings.json

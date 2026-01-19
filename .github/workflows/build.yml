@@ -37,14 +37,34 @@ jobs:
       - name: List LLVM Directory
         run: ls -R ${{ github.workspace }}/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm
 
-      - name: Build Native Library
+      - name: Set LLVM Path
+        id: get-llvm-path
         run: |
-          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ github.workspace }}/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm"
+          echo "llvm_path=${GITHUB_WORKSPACE}/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm" >> $GITHUB_OUTPUT
+
+      - name: Build Native Library (Windows)
+        if: matrix.config.runtime == 'win-x64' || matrix.config.runtime == 'win-arm64'
+        run: |
+          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}"
           cmake --build ./Native/build --config Release
+
+      - name: Build Native Library (Linux)
+        if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64'
+        run: |
+          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+          cmake --build ./Native/build --config Release
+
+      - name: Build Native Library (MacOS)
+        if: matrix.config.runtime == 'osx-arm64'
+        run: |
+          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}"
+          cmake --build ./Native/build --config Debug
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v6
         with:
           name: libLLVM_${{ matrix.config.runtime }}
-          path: ./Native/build/Release/libLLVM.*
+          path: |
+            ./Native/build/Debug/libLLVM.*
+            ./Native/build/Release/libLLVM.*
           if-no-files-found: error
