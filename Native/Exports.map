@@ -1210,7 +1210,7 @@
         LLVMX86AMXTypeInContext;
         LLVMX86FP80Type;
         LLVMX86FP80TypeInContext;
-        llvmsharp_*
+        llvmsharp_*;
     local:
         *;
 };
