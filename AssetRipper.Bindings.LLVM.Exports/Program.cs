@@ -36,6 +36,7 @@ internal class Program
 			exports.Sort(StringComparer.Ordinal);
 			WriteModuleDefinition(outputDirectory, exports);
 			WriteExportsMap(outputDirectory, exports);
+			WriteExportsList(outputDirectory, exports);
 		}
 		else
 		{
@@ -76,6 +77,19 @@ internal class Program
 		writer.WriteLine("    local:");
 		writer.WriteLine("        *;");
 		writer.WriteLine("};");
+	}
+
+	private static void WriteExportsList(string outputDirectory, List<string> exports)
+	{
+		using StreamWriter writer = new(Path.Join(outputDirectory, "Exports.txt"))
+		{
+			AutoFlush = true,
+			NewLine = "\n",
+		};
+		foreach (string export in exports)
+		{
+			writer.WriteLine(export);
+		}
 	}
 
 	private static IEnumerable<string> GetExportsForPE(PEImage image)
