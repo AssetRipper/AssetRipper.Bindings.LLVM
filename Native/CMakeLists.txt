@@ -70,15 +70,6 @@ endif()
 # Collect all library files in the directory
 file(GLOB ALL_LIBS "${LLVM_LIB_DIR}/*${LIB_EXT}")
 
-# Remove the ones we don't want
-list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/libclang${LIB_EXT}")
-list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/libiomp5md${LIB_EXT}")
-list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/liblldb${LIB_EXT}")
-list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/libomp${LIB_EXT}")
-list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/LLVM-C${LIB_EXT}")
-list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/LTO${LIB_EXT}")
-list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/Remarks${LIB_EXT}")
-
 # Link against the import libraries
 # Quote each path to safely handle spaces
 foreach(LIB IN LISTS ALL_LIBS)
