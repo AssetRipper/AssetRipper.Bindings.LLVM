@@ -75,6 +75,10 @@ if(UNIX AND NOT APPLE)
     target_link_options(LLVM PRIVATE
         -Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/Exports.map
     )
+    target_link_options(LLVM PRIVATE
+        -Wl,--undefined=LLVMContextCreate
+        -Wl,--undefined=LLVMContextDispose
+    )
 endif()
 
 
