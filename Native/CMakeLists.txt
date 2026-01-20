@@ -73,6 +73,6 @@ file(GLOB ALL_LIBS "${LLVM_LIB_DIR}/*${LIB_EXT}")
 # Link against the import libraries
 # Quote each path to safely handle spaces
 foreach(LIB IN LISTS ALL_LIBS)
-    target_link_libraries(LLVM PRIVATE "${LIB}")
+    target_link_libraries(LLVM PRIVATE -Wl,--whole-archive "${LIB}" -Wl,--no-whole-archive)
 endforeach()
 
