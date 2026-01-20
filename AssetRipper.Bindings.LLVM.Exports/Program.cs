@@ -28,28 +28,54 @@ internal class Program
 		}
 	}
 
-	private static void Run(string path, string outputPath)
+	private static void Run(string path, string outputDirectory)
 	{
 		if (TryLoadPEImage(path, out PEImage? peImage))
 		{
-			using StreamWriter writer = new(outputPath)
-			{
-				AutoFlush = true,
-				NewLine = "\n",
-			};
-			writer.WriteLine("EXPORTS");
 			List<string> exports = GetExportsForPE(peImage).ToList();
 			exports.Sort(StringComparer.Ordinal);
-			foreach (string export in exports)
-			{
-				writer.Write("    ");
-				writer.WriteLine(export);
-			}
+			WriteModuleDefinition(outputDirectory, exports);
+			WriteExportsMap(outputDirectory, exports);
 		}
 		else
 		{
 			Console.WriteLine($"Failed to load binary from path: {path}");
 		}
+	}
+
+	private static void WriteModuleDefinition(string outputDirectory, List<string> exports)
+	{
+		using StreamWriter writer = new(Path.Join(outputDirectory, "Exports.def"))
+		{
+			AutoFlush = true,
+			NewLine = "\n",
+		};
+		writer.WriteLine("EXPORTS");
+		foreach (string export in exports)
+		{
+			writer.Write("    ");
+			writer.WriteLine(export);
+		}
+	}
+
+	private static void WriteExportsMap(string outputDirectory, List<string> exports)
+	{
+		using StreamWriter writer = new(Path.Join(outputDirectory, "Exports.map"))
+		{
+			AutoFlush = true,
+			NewLine = "\n",
+		};
+		writer.WriteLine('{');
+		writer.WriteLine("    global:");
+		foreach (string export in exports)
+		{
+			writer.Write("        ");
+			writer.Write(export);
+			writer.WriteLine(';');
+		}
+		writer.WriteLine("    local:");
+		writer.WriteLine("        *;");
+		writer.WriteLine("};");
 	}
 
 	private static IEnumerable<string> GetExportsForPE(PEImage image)

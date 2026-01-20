@@ -72,6 +72,9 @@ if(UNIX AND NOT APPLE)
     set(CMAKE_CXX_VISIBILITY_PRESET hidden)
     set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
     set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-s")
+    target_link_options(LLVM PRIVATE
+        -Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/Exports.map
+    )
 endif()
 
 
