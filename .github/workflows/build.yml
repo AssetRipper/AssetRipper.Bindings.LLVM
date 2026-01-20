@@ -61,7 +61,7 @@ jobs:
       - name: Build Native Library (Linux)
         if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64'
         run: |
-          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_LINKER=lld -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=ld.lld"
+          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
           cmake --build ./Native/build --config Release
 
       - name: Build Native Library (MacOS)
