@@ -30,10 +30,25 @@ jobs:
       - name: Setup LLVM (Linux)
         if: matrix.config.runtime == 'linux-x64'
         run: |
+          # Download LLVM
           curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/LLVM-21.1.8-Linux-X64.tar.xz \
             -o llvm-21.1.8.tar.xz
+
+          # Extract and add to PATH
           tar -xf llvm-21.1.8.tar.xz
           export PATH="$PWD/LLVM-21.1.8-Linux-X64/bin:$PATH"
+
+          # Delete archive
+          rm llvm-21.1.8.tar.xz
+
+          # Verify installation
+          llvm-config --version
+
+          # Export other variables
+          export CC="$PWD/LLVM-21.1.8-Linux-X64/bin/clang"
+          export CXX="$PWD/LLVM-21.1.8-Linux-X64/bin/clang++"
+          export LD="$PWD/LLVM-21.1.8-Linux-X64/bin/ld.lld"
+          export LLD="$PWD/LLVM-21.1.8-Linux-X64/bin/ld.lld"
 
       - name: Build
         run: dotnet build
