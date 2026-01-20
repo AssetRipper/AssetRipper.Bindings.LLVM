@@ -85,6 +85,6 @@ list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/libbolt_rt_instr${LIB_EXT}")
 # Link against the import libraries
 # Quote each path to safely handle spaces
 foreach(LIB IN LISTS ALL_LIBS)
-    target_link_libraries(LLVM PRIVATE -Wl,--whole-archive "${LIB}" -Wl,--no-whole-archive)
+    target_link_libraries(LLVM PRIVATE "${LIB}")
 endforeach()
 
