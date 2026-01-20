@@ -80,4 +80,5 @@ jobs:
           path: |
             ./Native/build/Debug/libLLVM.*
             ./Native/build/Release/libLLVM.*
+            ./Native/build/libLLVM.so
           if-no-files-found: error
