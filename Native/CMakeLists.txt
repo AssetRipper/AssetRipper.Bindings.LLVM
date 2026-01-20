@@ -69,7 +69,9 @@ endif()
 
 # On Linux, ensure we optimize and don't include unnecessary debug info
 if(UNIX AND NOT APPLE)
-    target_compile_options(LLVM PRIVATE -O3 -g0)
+    set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+    set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
+    set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-s")
 endif()
 
 
