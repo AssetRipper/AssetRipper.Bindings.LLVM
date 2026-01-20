@@ -70,6 +70,9 @@ jobs:
           cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}"
           cmake --build ./Native/build --config Debug
 
+      - name: List Native Directory
+        run: ls -R ${{ github.workspace }}/Native
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v6
         with:
