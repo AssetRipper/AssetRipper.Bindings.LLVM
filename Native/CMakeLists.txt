@@ -70,10 +70,13 @@ endif()
 # Collect all library files in the directory
 file(GLOB ALL_LIBS "${LLVM_LIB_DIR}/*${LIB_EXT}")
 
+# Remove libbolt_rt_hugify.a and libbolt_rt_instr.a
+list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/libbolt_rt_hugify${LIB_EXT}")
+list(REMOVE_ITEM ALL_LIBS "${LLVM_LIB_DIR}/libbolt_rt_instr${LIB_EXT}")
+
 # Link against the import libraries
-target_link_libraries(LLVM PRIVATE
-    -Wl,--start-group
-    ${ALL_LIBS}
-    -Wl,--end-group
-)
+# Quote each path to safely handle spaces
+foreach(LIB IN LISTS ALL_LIBS)
+    target_link_libraries(LLVM PRIVATE -Wl,--whole-archive "${LIB}" -Wl,--no-whole-archive)
+endforeach()
 
