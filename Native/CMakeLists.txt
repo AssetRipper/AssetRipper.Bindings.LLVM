@@ -67,6 +67,12 @@ else()
     set(LIB_EXT ".a")
 endif()
 
+# On Linux, ensure we optimize and don't include unnecessary debug info
+if(UNIX AND NOT APPLE)
+    target_compile_options(LLVM PRIVATE -O3 -g0)
+endif()
+
+
 # Collect all library files in the directory
 file(GLOB ALL_LIBS "${LLVM_LIB_DIR}/*${LIB_EXT}")
 
