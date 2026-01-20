@@ -75,7 +75,7 @@ if(UNIX AND NOT APPLE)
     target_link_options(LLVM PRIVATE
         -Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/Exports.map
     )
-    file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/exports.txt" LLVM_EXPORTS)
+    file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/Exports.txt" LLVM_EXPORTS)
     foreach(sym IN LISTS LLVM_EXPORTS)
         target_link_options(LLVM PRIVATE "-Wl,--undefined=${sym}")
     endforeach()
