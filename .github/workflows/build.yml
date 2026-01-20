@@ -27,31 +27,11 @@ jobs:
       - name: Setup CMake
         uses: jwlawson/actions-setup-cmake@v2
 
-      - name: Setup LLVM (Linux)
-        if: matrix.config.runtime == 'linux-x64'
-        run: |
-          # Download LLVM
-          curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/LLVM-21.1.8-Linux-X64.tar.xz \
-            -o llvm-21.1.8.tar.xz
-
-          # Extract and add to PATH
-          tar -xf llvm-21.1.8.tar.xz
-          export PATH="$PWD/LLVM-21.1.8-Linux-X64/bin:$PATH"
-
-          # Delete archive
-          rm llvm-21.1.8.tar.xz
-
-          # Verify installation
-          llvm-config --version
-          clang --version
-          clang++ --version
-          ld.lld --version
-
-          # Export other variables
-          export CC="$PWD/LLVM-21.1.8-Linux-X64/bin/clang"
-          export CXX="$PWD/LLVM-21.1.8-Linux-X64/bin/clang++"
-          export LD="$PWD/LLVM-21.1.8-Linux-X64/bin/ld.lld"
-          export LLD="$PWD/LLVM-21.1.8-Linux-X64/bin/ld.lld"
+      - name: Set up Clang
+        if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64'
+        uses: egor-tensin/setup-clang@v2
+        with:
+          version: 21
 
       - name: Build
         run: dotnet build
@@ -77,7 +57,7 @@ jobs:
       - name: Build Native Library (Linux)
         if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64'
         run: |
-          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_LINKER=lld -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
+          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_LINKER=lld -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=ld.lld"
           cmake --build ./Native/build --config Release
 
       - name: Build Native Library (MacOS)
