@@ -60,6 +60,10 @@ if(WIN32)
     target_link_libraries(LLVM PRIVATE ntdll)
 endif()
 
+if (APPLE)
+    target_link_libraries(LLVM PRIVATE ZLIB::ZLIB zstd::libzstd)
+endif()
+
 # Determine the library extension based on platform
 if(WIN32)
     set(LIB_EXT ".lib")
