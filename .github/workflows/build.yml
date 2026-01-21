@@ -15,6 +15,7 @@ jobs:
         config:
           - { os: windows-latest, runtime: win-x64 }
           - { os: ubuntu-latest, runtime: linux-x64 }
+          - { os: macos-latest, runtime: osx-arm64 }
 
     steps:
       - uses: actions/checkout@v6
@@ -28,7 +29,7 @@ jobs:
         uses: jwlawson/actions-setup-cmake@v2
 
       - name: Set up Clang
-        if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64'
+        if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64' || matrix.config.runtime == 'osx-arm64'
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: "21.1.8"
@@ -63,8 +64,8 @@ jobs:
       - name: Build Native Library (MacOS)
         if: matrix.config.runtime == 'osx-arm64'
         run: |
-          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}"
-          cmake --build ./Native/build --config Debug
+          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" -DCMAKE_BUILD_TYPE=Release
+          cmake --build ./Native/build --config Release
 
       - name: List Native Directory
         run: ls -R ${{ github.workspace }}/Native
@@ -74,7 +75,7 @@ jobs:
         with:
           name: libLLVM_${{ matrix.config.runtime }}
           path: |
-            ./Native/build/Debug/libLLVM.*
-            ./Native/build/Release/libLLVM.*
+            ./Native/build/Release/libLLVM.dll
             ./Native/build/libLLVM.so
+            ./Native/build/libLLVM.dylib
           if-no-files-found: error
