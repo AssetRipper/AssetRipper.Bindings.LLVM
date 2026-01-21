@@ -79,13 +79,20 @@ if(UNIX)
     set(CMAKE_CXX_VISIBILITY_PRESET hidden)
     set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
     set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-s")
-    target_link_options(LLVM PRIVATE
-        -Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/Exports.map
-    )
+
     file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/Exports.txt" LLVM_EXPORTS)
-    foreach(sym IN LISTS LLVM_EXPORTS)
-        target_link_options(LLVM PRIVATE "-Wl,--undefined=${sym}")
-    endforeach()
+    if (APPLE)
+        foreach(sym IN LISTS LLVM_EXPORTS)
+            target_link_options(LLVM PRIVATE "-Wl,-u,_${sym}")
+        endforeach()
+    else()
+        target_link_options(LLVM PRIVATE
+            -Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/Exports.map
+        )
+        foreach(sym IN LISTS LLVM_EXPORTS)
+            target_link_options(LLVM PRIVATE "-Wl,--undefined=${sym}")
+        endforeach()
+    endif()
 endif()
 
 

@@ -74,6 +74,7 @@ internal class Program
 			writer.Write(export);
 			writer.WriteLine(';');
 		}
+		writer.WriteLine("        llvmsharp_*;");
 		writer.WriteLine("    local:");
 		writer.WriteLine("        *;");
 		writer.WriteLine("};");
