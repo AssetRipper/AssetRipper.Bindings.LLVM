@@ -70,12 +70,26 @@ jobs:
       - name: List Native Directory
         run: ls -R ${{ github.workspace }}/Native
 
-      - name: Upload Artifacts
+      - name: Upload Artifacts (Windows)
+        if: matrix.config.runtime == 'win-x64' || matrix.config.runtime == 'win-arm64'
         uses: actions/upload-artifact@v6
         with:
           name: libLLVM_${{ matrix.config.runtime }}
-          path: |
-            ./Native/build/Release/libLLVM.dll
-            ./Native/build/libLLVM.so
-            ./Native/build/libLLVM.dylib
+          path: ./Native/build/Release/libLLVM.dll
+          if-no-files-found: error
+
+      - name: Upload Artifacts (MacOS)
+        if: matrix.config.runtime == 'osx-arm64'
+        uses: actions/upload-artifact@v6
+        with:
+          name: libLLVM_${{ matrix.config.runtime }}
+          path: ./Native/build/libLLVM.dylib
+          if-no-files-found: error
+
+      - name: Upload Artifacts (Linux)
+        if: matrix.config.runtime == 'linux-x64' || matrix.config.runtime == 'linux-arm64'
+        uses: actions/upload-artifact@v6
+        with:
+          name: libLLVM_${{ matrix.config.runtime }}
+          path: ./Native/build/libLLVM.so
           if-no-files-found: error
