@@ -61,7 +61,9 @@ if(WIN32)
 endif()
 
 if (APPLE)
-    target_link_libraries(LLVM PRIVATE ZLIB libzstd)
+    find_package(ZLIB REQUIRED)
+    find_package(zstd REQUIRED CONFIG)
+    target_link_libraries(LLVM PRIVATE ZLIB::ZLIB zstd::libzstd)
 endif()
 
 # Determine the library extension based on platform
