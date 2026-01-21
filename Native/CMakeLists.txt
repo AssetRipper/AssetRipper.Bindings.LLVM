@@ -55,11 +55,12 @@ generate_export_header(LLVM
     EXPORT_FILE_NAME LLVM_export.h
 )
 
-# LLVM depends on ntdll on Windows
+# On Windows, link against ntdll
 if(WIN32)
     target_link_libraries(LLVM PRIVATE ntdll)
 endif()
 
+# On macOS, link against ZLIB and zstd
 if (APPLE)
     find_package(ZLIB REQUIRED)
     find_package(zstd REQUIRED CONFIG)
@@ -73,8 +74,8 @@ else()
     set(LIB_EXT ".a")
 endif()
 
-# On Linux, ensure we optimize and don't include unnecessary debug info
-if(UNIX AND NOT APPLE)
+# On Linux and Mac, ensure we optimize and don't include unnecessary debug info
+if(UNIX)
     set(CMAKE_CXX_VISIBILITY_PRESET hidden)
     set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
     set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-s")
