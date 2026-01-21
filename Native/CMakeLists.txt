@@ -78,7 +78,6 @@ endif()
 if(UNIX)
     set(CMAKE_CXX_VISIBILITY_PRESET hidden)
     set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
-    set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-s")
 
     file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/Exports.txt" LLVM_EXPORTS)
     if (APPLE)
@@ -86,6 +85,7 @@ if(UNIX)
             target_link_options(LLVM PRIVATE "-Wl,-u,_${sym}")
         endforeach()
     else()
+        set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-s")
         target_link_options(LLVM PRIVATE
             -Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/Exports.map
         )
