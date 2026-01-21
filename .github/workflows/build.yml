@@ -34,9 +34,6 @@ jobs:
         with:
           version: "21.1.8"
 
-      - name: Build
-        run: dotnet build
-
       - name: Download LLVM
         run: dotnet run --project ./AssetRipper.Bindings.LLVM.Downloader/AssetRipper.Bindings.LLVM.Downloader.csproj 21.1.8 ${{ matrix.config.runtime }}
 
