@@ -125,5 +125,8 @@ jobs:
           name: libLLVM_win-x64
           path: ./Packages/AssetRipper.Bindings.LLVM.Windows.X64/libLLVM.dll
 
+      - name: List Packages Directory
+        run: ls -R ${{ github.workspace }}/Packages
+
       - name: Build Managed Library
         run: dotnet build --configuration Release
