@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  build_native:
     runs-on: ${{ matrix.config.os }}
 
     strategy:
@@ -27,9 +27,6 @@ jobs:
 
       - name: Setup CMake
         uses: jwlawson/actions-setup-cmake@v2
-
-      - name: Build
-        run: dotnet build
 
       - name: Download LLVM
         run: dotnet run --project ./AssetRipper.Bindings.LLVM.Downloader/AssetRipper.Bindings.LLVM.Downloader.csproj 21.1.8 ${{ matrix.config.runtime }}
@@ -93,3 +90,40 @@ jobs:
           name: libLLVM_${{ matrix.config.runtime }}
           path: ./Native/build/libLLVM.so
           if-no-files-found: error
+
+  build_managed:
+    runs-on: ubuntu-latest
+
+    needs: build_native
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Download Native Artifacts (linux-x64)
+        uses: actions/download-artifact@v6
+        with:
+          name: libLLVM_linux-x64
+          path: ./Packages/AssetRipper.Bindings.LLVM.Linux.X64/libLLVM.so
+      
+      - name: Download Native Artifacts (osx-arm64)
+        uses: actions/download-artifact@v6
+        with:
+          name: libLLVM_osx-arm64
+          path: ./Packages/AssetRipper.Bindings.LLVM.Mac.Arm64/libLLVM.dylib
+
+      - name: Download Native Artifacts (win-x64)
+        uses: actions/download-artifact@v6
+        with:
+          name: libLLVM_win-x64
+          path: ./Packages/AssetRipper.Bindings.LLVM.Windows.X64/libLLVM.dll
+
+      - name: Build Managed Library
+        run: dotnet build --configuration Release

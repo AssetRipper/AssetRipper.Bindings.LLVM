@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<PackAsTool>false</PackAsTool>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+		<PackageId>AssetRipper.Bindings.LLVM.Windows.X64</PackageId>
+		<Description>Multi-platform native library for libLLVM</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="libLLVM.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
+		<None Include="../README.md" Pack="true" PackagePath="" />
+		<None Include="../../License.md" Pack="true" PackagePath="" />
+		<None Include="../LLVM-LICENSE.txt" Pack="true" PackagePath="" />
+		<None Include="../THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+</Project>
