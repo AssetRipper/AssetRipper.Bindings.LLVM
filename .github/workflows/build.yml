@@ -139,6 +139,12 @@ jobs:
           name: libLLVM_win-x64
           path: ./Packages/AssetRipper.Bindings.LLVM.Windows.X64
 
+      - name: Download Native Artifacts (win-arm64)
+        uses: actions/download-artifact@v6
+        with:
+          name: libLLVM_win-arm64
+          path: ./Packages/AssetRipper.Bindings.LLVM.Windows.Arm64
+
       - name: List Packages Directory
         run: ls -R ${{ github.workspace }}/Packages
 
