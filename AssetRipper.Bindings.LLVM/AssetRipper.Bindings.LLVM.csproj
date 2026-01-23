@@ -1,4 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+		<PackageId>AssetRipper.Bindings.LLVM</PackageId>
+		<Description>Multi-platform bindings for libLLVM</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\Packages\AssetRipper.Bindings.LLVM.Linux.Arm64\AssetRipper.Bindings.LLVM.Linux.Arm64.csproj" />
 		<ProjectReference Include="..\Packages\AssetRipper.Bindings.LLVM.Linux.X64\AssetRipper.Bindings.LLVM.Linux.X64.csproj" />
