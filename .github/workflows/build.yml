@@ -139,7 +139,9 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: Move all nuget packages to the current directory
-        run: mv ./**/bin/Release/*.nupkg ./
+        run: |
+          shopt -s globstar
+          mv ./**/bin/Release/*.nupkg ./
 
       - name: Upload NuGet Packages
         uses: actions/upload-artifact@v6
