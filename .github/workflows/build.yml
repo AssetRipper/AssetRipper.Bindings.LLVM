@@ -14,6 +14,7 @@ jobs:
       matrix:
         config:
           - { os: windows-latest, runtime: win-x64 }
+          - { os: windows-latest, runtime: win-arm64 }
           - { os: ubuntu-24.04, runtime: linux-x64 }
           - { os: ubuntu-24.04-arm, runtime: linux-arm64 }
           - { os: macos-latest, runtime: osx-arm64 }
@@ -47,10 +48,16 @@ jobs:
         run: |
           echo "llvm_path=${GITHUB_WORKSPACE}/AssetRipper.Bindings.LLVM.Downloader/bin/Debug/net10.0/llvm" >> $GITHUB_OUTPUT
 
-      - name: Build Native Library (Windows)
-        if: matrix.config.runtime == 'win-x64' || matrix.config.runtime == 'win-arm64'
+      - name: Build Native Library (Windows x64)
+        if: matrix.config.runtime == 'win-x64'
         run: |
           cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}"
+          cmake --build ./Native/build --config Release
+
+      - name: Build Native Library (Windows Arm64)
+        if: matrix.config.runtime == 'win-arm64'
+        run: |
+          cmake -S ./Native -B ./Native/build -DLLVM_ROOT="${{ steps.get-llvm-path.outputs.llvm_path }}" -A ARM64
           cmake --build ./Native/build --config Release
 
       - name: Build Native Library (Linux)
