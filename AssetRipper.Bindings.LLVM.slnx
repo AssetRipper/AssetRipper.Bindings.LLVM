@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Packages/">
+    <Project Path="Packages/AssetRipper.Bindings.LLVM.Linux.Arm64/AssetRipper.Bindings.LLVM.Linux.Arm64.csproj" />
     <Project Path="Packages/AssetRipper.Bindings.LLVM.Linux.X64/AssetRipper.Bindings.LLVM.Linux.X64.csproj" />
     <Project Path="Packages/AssetRipper.Bindings.LLVM.Mac.Arm64/AssetRipper.Bindings.LLVM.Mac.Arm64.csproj" />
     <Project Path="Packages/AssetRipper.Bindings.LLVM.Windows.X64/AssetRipper.Bindings.LLVM.Windows.X64.csproj" />

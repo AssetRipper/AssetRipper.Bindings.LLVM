@@ -113,7 +113,13 @@ jobs:
         with:
           name: libLLVM_linux-x64
           path: ./Packages/AssetRipper.Bindings.LLVM.Linux.X64
-      
+
+      - name: Download Native Artifacts (linux-arm64)
+        uses: actions/download-artifact@v6
+        with:
+          name: libLLVM_linux-arm64
+          path: ./Packages/AssetRipper.Bindings.LLVM.Linux.Arm64
+
       - name: Download Native Artifacts (osx-arm64)
         uses: actions/download-artifact@v6
         with:
@@ -131,3 +137,12 @@ jobs:
 
       - name: Build Managed Library
         run: dotnet build --configuration Release
+
+      - name: Move all nuget packages to the current directory
+        run: mv ./**/bin/Release/*.nupkg ./
+
+      - name: Upload NuGet Packages
+        uses: actions/upload-artifact@v6
+        with:
+          name: Packages
+          path: ./*.nupkg
