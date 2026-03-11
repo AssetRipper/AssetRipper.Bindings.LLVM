@@ -1,11 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
 		<PackageId>AssetRipper.Bindings.LLVM.Windows.Arm64</PackageId>
 		<Description>Multi-platform native library for libLLVM</Description>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<ItemGroup>

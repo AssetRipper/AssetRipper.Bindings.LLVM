@@ -11,5 +11,6 @@
 		<Company>AssetRipper</Company>
 		<RepositoryUrl>https://github.com/AssetRipper/AssetRipper.Bindings.LLVM</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/AssetRipper/AssetRipper.Bindings.LLVM</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 </Project>
