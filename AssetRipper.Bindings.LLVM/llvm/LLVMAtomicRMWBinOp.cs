@@ -26,4 +26,6 @@ public enum LLVMAtomicRMWBinOp
     LLVMAtomicRMWBinOpUDecWrap,
     LLVMAtomicRMWBinOpUSubCond,
     LLVMAtomicRMWBinOpUSubSat,
+    LLVMAtomicRMWBinOpFMaximum,
+    LLVMAtomicRMWBinOpFMinimum,
 }
