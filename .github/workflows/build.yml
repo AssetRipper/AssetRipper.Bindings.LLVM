@@ -3,8 +3,10 @@ name: Build
 on:
   push:
     branches: [master]
+    tags: ['*']
   pull_request:
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   build_native:
@@ -161,3 +163,13 @@ jobs:
         with:
           name: Packages
           path: ./*.nupkg
+
+      - name: Push to NuGet.org
+        if: github.ref_type == 'tag'
+        run: dotnet nuget push ./*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          generate_release_notes: true
