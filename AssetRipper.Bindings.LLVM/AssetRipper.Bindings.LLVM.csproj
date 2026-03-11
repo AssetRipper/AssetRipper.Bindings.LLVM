@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
 		<PackageId>AssetRipper.Bindings.LLVM</PackageId>
 		<Description>Multi-platform bindings for libLLVM</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+		<NoWarn>$(NoWarn);SYSLIB1054</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
